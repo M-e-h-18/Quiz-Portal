@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Countries and Capitals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            background-image: url(hist.jpg);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(228, 14, 14, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            font-size: large;
+            text-align: center;
+        }
+        #options {
+            font-size: 1.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: #e7d9d9;
+            text-align: center; 
+            margin-bottom: 10px;
+            margin-top: 20px; 
+}
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: #e7d9d9;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #e7d9d9;
+        }
+
+        .option-button {
+    /* Existing button styles */
+                display: inline-block;
+                margin: 0 10px 15px;
+                margin-bottom: 10px;;
+                padding: 10px 20px;
+                font-size: 1em;
+                background-color: #2d2e30;
+                color: #fff;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                transition: transform 0.3s ease; /* Added transition for transform property */
+}
+
+        .option-button:hover {
+            background-color: #474849;
+            transform: scale(1.2); /* Scale up the button on hover */
+        }
+
+        #score {
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: #e7d9d9;
+            font-size: 2em;
+            margin-top: 20px;
+        }
+
+        #options {
+            font-size: 1.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: black;
+            text-align: center; 
+            color: #e7d9d9;
+            margin-bottom: 20px;
+        }
+
+        #submit-button {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="question"></h2>
+        <div id="options"></div>
+        <button id="submit-button" class="option-button" onclick="nextQuestion()">Submit</button>
+        <div class="container2">
+            <div class="animated-text">
+                <div id="score"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        
+        const questions = [
+        {
+            question: "Q1 - Which legendary figure is associated with the founding of Rome?",
+            options: ["Augustus", "Julius Caesar", "Romulus", "Nero"],
+            answer: "Romulus"
+        },
+        {
+            question: "Q2 - Who was the legendary Chinese philosopher and founder of Confucianism?",
+            options: ["Sun Tzu", "Laozi", "Mencius", "Confucius"],
+            answer: "Confucius"
+        },
+        {
+            question: "Q3 - Who was the ancient Greek hero known for the Twelve Labors?",
+            options: ["Hercules", "Achilles", "Perceus", "Odysseus"],
+            answer: "Hercules"
+        },
+        {
+            question: "Q4 - Which legendary queen of ancient Egypt is known for her intelligence and beauty?",
+            options: ["Cleopatra", "Nefertiti", "Hatshepsut", "Ankhesenamun"],
+            answer: "Cleopatra"
+        },
+        {
+            question: "Q5 - Which ancient ruler is known for his empire that stretched from Greece to India?",
+            options: ["Darius I", "Cyrus the Great", "Alexander the Great", "Xerxes I"],
+            answer: "Alexander the Great"
+        },
+        {
+            question: "Q6 - Who was the epic Celtic Iceni queen, known for her rebellion against the Romans?",
+            options: ["Boudica", "Cleopatra", "Boadicea", "Zenobia"],
+            answer: "Boudica"
+        },
+        {
+            question: "Q7 - Which legendary figure is associated with the Knights of the Round Table?",
+            options: ["Ashoka", "King Arthur", "Lancelot", "Guinevere"],
+            answer: "King Arthur"
+        },
+        {
+            question: "Q8 - Which ancient ruler of Persia is credited with the construction of the Royal Road?",
+            options: ["Darius the Great", "Xerxes I", "Artaxerxes I", "Cyrus the Great"],
+            answer: "Cyrus the Great"
+        },
+        {
+            question: "Q9 - Which legendary figure is associated with the Trojan War and the wooden horse?",
+            options: ["Achilles", "Odysseus", "Hector", "Agamemnon"],
+            answer: "Odysseus"
+        },
+        {
+            question: "Q10 - Who was the legendary queen of Carthage, known for her affair with Aeneas?",
+            options: ["Cleopatra", "Zenobia", "Dido", "Boudica"],
+            answer: "Dido"
+        }
+        ];
+        
+        function displayQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const currentQuestionObj = questions[currentQuestion];
+        
+            questionElement.textContent = currentQuestionObj.question;
+            optionsElement.innerHTML = '';
+        
+            currentQuestionObj.options.forEach((option) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-button');
+                button.onclick = function() {
+                    checkAnswer(option);
+                };
+                optionsElement.appendChild(button);
+            });
+
+            
+        }
+        
+        function checkAnswer(selectedOption) {
+            const currentQuestionObj = questions[currentQuestion];
+            if (selectedOption === currentQuestionObj.answer) {
+                score++;
+            }
+        
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showScore();
+            }
+        }
+        
+        function showScore() {
+            const scoreElement = document.getElementById('score');
+            scoreElement.textContent = `Your final score is: ${score} / ${questions.length}`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            displayQuestion();
+        });
+    </script>
+</body>
+</html>

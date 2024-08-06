@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Countries and Capitals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            background-image: url(horizontal-banner-hands-people-solving-260nw-1049759054.webp);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(4, 12, 248, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            font-size: large;
+            text-align: center;
+        }
+        #options {
+            font-size: 1.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: #e7d9d9;
+            text-align: center; 
+            margin-bottom: 10px;
+            margin-top: 20px; 
+}
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: #e7d9d9;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #e7d9d9;
+        }
+
+        .option-button {
+    /* Existing button styles */
+                display: inline-block;
+                margin: 0 10px 15px;
+                margin-bottom: 10px;;
+                padding: 10px 20px;
+                font-size: 1em;
+                background-color: #2d2e30;
+                color: #fff;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                transition: transform 0.3s ease; /* Added transition for transform property */
+}
+
+        .option-button:hover {
+            background-color: #474849;
+            transform: scale(1.2); /* Scale up the button on hover */
+        }
+
+        #score {
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: #e7d9d9;
+            font-size: 2em;
+            margin-top: 20px;
+        }
+
+        #options {
+            font-size: 1.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: black;
+            text-align: center; 
+            color: #e7d9d9;
+            margin-bottom: 20px;
+        }
+
+        #submit-button {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="question"></h2>
+        <div id="options"></div>
+        <button id="submit-button" class="option-button" onclick="nextQuestion()">Submit</button>
+        <div class="container2">
+            <div class="animated-text">
+                <div id="score"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        
+        const questions = [
+{
+    question: "Q1 - Who painted the Mona Lisa?",
+    options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+    answer: "Leonardo da Vinci"
+},
+{
+    question: "Q2 - Which painting is famous for depicting melting clocks?",
+    options: ["The Starry Night", "The Persistence of Memory", "The Last Supper", "The Scream"],
+    answer: "The Persistence of Memory"
+},
+{
+    question: "Q3 - Which of these is NOT a primary colour?",
+    options: ["Red", "Blue", "Green", "Yellow"],
+    answer: "Green"
+},
+{
+    question: "Q4 - Who created the famous sculpture David?",
+    options: ["Donatello", "Michelangelo", "Leonardo da Vinci", "Botticelli"],
+    answer: "Michelangelo"
+},
+{
+    question: "Q5 - When was the Mona Lisa painted?",
+    options: ["1503", "1603", "1553", "1403"],
+    answer: "1503"
+},
+{
+    question: "Q6 - Which painter created The Starry Night?",
+    options: ["Salvador Dalí", "Pablo Picasso", "Vincent van Gogh", "Claude Monet"],
+    answer: "Vincent van Gogh"
+},
+{
+    question: "Q7 - Which of these is NOT a secondary colour?",
+    options: ["Orange", "Green", "Purple", "Pink"],
+    answer: "Pink"
+},
+{
+    question: "Q8 - Who painted The Last Supper?",
+    options: ["Michelangelo", "Leonardo da Vinci", "Raphael", "Caravaggio"],
+    answer: "Leonardo da Vinci"
+},
+{
+    question: "Q9 - Michelangelo belonged to which country?",
+    options: ["Greece", "Spain", "Italy", "Portugal"],
+    answer: "Italy"
+},
+{
+    question: "Q10 - Which of these is NOT a color coding?",
+    options: ["RGB", "CMYK", "HAL", "HEX"],
+    answer: "HAL"
+}
+];
+        
+        function displayQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const currentQuestionObj = questions[currentQuestion];
+        
+            questionElement.textContent = currentQuestionObj.question;
+            optionsElement.innerHTML = '';
+        
+            currentQuestionObj.options.forEach((option) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-button');
+                button.onclick = function() {
+                    checkAnswer(option);
+                };
+                optionsElement.appendChild(button);
+            });
+
+            
+        }
+        
+        function checkAnswer(selectedOption) {
+            const currentQuestionObj = questions[currentQuestion];
+            if (selectedOption === currentQuestionObj.answer) {
+                score++;
+            }
+        
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showScore();
+            }
+        }
+        
+        function showScore() {
+            const scoreElement = document.getElementById('score');
+            scoreElement.textContent = `Your final score is: ${score} / ${questions.length}`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            displayQuestion();
+        });
+    </script>
+</body>
+</html>

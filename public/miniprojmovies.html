@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Countries and Capitals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            background-image: url(quiz-set-in-doodle-style-illustration-icon-question-symbol-for-print-and-design-quiz-and-exam-concept-isolated-element-on-black-background-collection-of-sign-for-school-and-event-vector.jpg);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(9, 192, 6, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            font-size: large;
+            text-align: center;
+        }
+        #options {
+            font-size: 1.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: #e7d9d9;
+            text-align: center; 
+            margin-bottom: 10px;
+            margin-top: 20px; 
+}
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: #e7d9d9;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #e7d9d9;
+        }
+
+        .option-button {
+    /* Existing button styles */
+                display: inline-block;
+                margin: 0 10px 15px;
+                margin-bottom: 10px;;
+                padding: 10px 20px;
+                font-size: 1em;
+                background-color: #2d2e30;
+                color: #fff;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                transition: transform 0.3s ease; /* Added transition for transform property */
+}
+
+        .option-button:hover {
+            background-color: #474849;
+            transform: scale(1.2); /* Scale up the button on hover */
+        }
+
+        #score {
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: #e7d9d9;
+            font-size: 2em;
+            margin-top: 20px;
+        }
+
+        #options {
+            font-size: 1.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: black;
+            text-align: center; 
+            color: #e7d9d9;
+            margin-bottom: 20px;
+        }
+
+        #submit-button {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="question"></h2>
+        <div id="options"></div>
+        <button id="submit-button" class="option-button" onclick="nextQuestion()">Submit</button>
+        <div class="container2">
+            <div class="animated-text">
+                <div id="score"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        
+        const questions = [
+        {
+            question: "Q1 - Who directed the movie Inception?",
+            options: ["Christopher Nolan", "Quentin Tarantino", "Steven Spielberg", "Martin Scorsese"],
+            answer: "Christopher Nolan"
+        },
+        {
+            question: "Q2 - Which actor portrayed the character of Tony Stark in Marvel?",
+            options: ["Chris Hemsworth", "Chris Evans", "Robert Downey Jr.", "Chris Pratt"],
+            answer: "Robert Downey Jr."
+        },
+        {
+            question: "Q3 - Which movie won the Academy Award for Best Picture in 2019?",
+            options: ["La La Land", "Joker", "Parasite", "1917"],
+            answer: "Parasite"
+        },
+        {
+            question: "Q4 - Who played the role of Hermione Granger in Harry Potter?",
+            options: ["Emma Watson", "Emma Stone", "Emma Roberts", "Emma Thompson"],
+            answer: "Emma Watson"
+        },
+        {
+            question: "Q5 - What is the highest-grossing film of all time?",
+            options: ["Avatar", "Avengers: Endgame", "Titanic", "Star Wars: The Force Awakens"],
+            answer: "Avengers: Endgame"
+        },
+        {
+            question: "Q6 - Which movie features the characters Jack Dawson and Rose DeWitt Bukater?",
+            options: ["Gone with the Wind", "The Notebook", "Titanic", "Casablanca"],
+            answer: "Titanic"
+        },
+        {
+            question: "Q7 - Who directed the 1994 film Pulp Fiction?",
+            options: ["Martin Scorsese", "Quentin Tarantino", "Steven Spielberg", "Francis Ford Coppola"],
+            answer: "Quentin Tarantino"
+        },
+        {
+            question: "Q8 - What is the title of the first film in the Lord of the Rings trilogy?",
+            options: ["The Fellowship of the Ring", "The Two Towers", "The Return of the King", "The Hobbit: An Unexpected Journey"],
+            answer: "The Fellowship of the Ring"
+        },
+        {
+            question: "Q9 - Who played the role of Neo in the movie The Matrix?",
+            options: ["Leonardo DiCaprio", "Tom Cruise", "Brad Pitt", "Keanu Reeves"],
+            answer: "Keanu Reeves"
+        },
+        {
+            question: "Q10 - What is the name of the fictional African country in the movie Black Panther?",
+            options: ["Zamunda", "Genovia", "Wakanda", "Sokovia"],
+            answer: "Wakanda"
+        }
+        ];
+        
+        function displayQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const currentQuestionObj = questions[currentQuestion];
+        
+            questionElement.textContent = currentQuestionObj.question;
+            optionsElement.innerHTML = '';
+        
+            currentQuestionObj.options.forEach((option) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-button');
+                button.onclick = function() {
+                    checkAnswer(option);
+                };
+                optionsElement.appendChild(button);
+            });
+
+            
+        }
+        
+        function checkAnswer(selectedOption) {
+            const currentQuestionObj = questions[currentQuestion];
+            if (selectedOption === currentQuestionObj.answer) {
+                score++;
+            }
+        
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showScore();
+            }
+        }
+        
+        function showScore() {
+            const scoreElement = document.getElementById('score');
+            scoreElement.textContent = `Your final score is: ${score} / ${questions.length}`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            displayQuestion();
+        });
+    </script>
+</body>
+</html>

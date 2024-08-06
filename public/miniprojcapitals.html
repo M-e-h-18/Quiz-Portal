@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - Countries and Capitals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            background-image: url('capitals_bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(228, 86, 14, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            font-size: large;
+            text-align: center;
+        }
+        #options {
+            font-size: 1.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: #e7d9d9;
+            text-align: center; 
+            margin-bottom: 10px;
+            margin-top: 20px; 
+}
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: #e7d9d9;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #e7d9d9;
+        }
+
+        .option-button {
+    /* Existing button styles */
+                display: inline-block;
+                margin: 0 10px 15px;
+                margin-bottom: 10px;;
+                padding: 10px 20px;
+                font-size: 1em;
+                background-color: #2d2e30;
+                color: #fff;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                transition: transform 0.3s ease; /* Added transition for transform property */
+}
+
+        .option-button:hover {
+            background-color: #474849;
+            transform: scale(1.2); /* Scale up the button on hover */
+        }
+
+        #score {
+            text-align: center;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: #e7d9d9;
+            font-size: 2em;
+            margin-top: 20px;
+        }
+
+        #options {
+            font-size: 1.5em;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: black;
+            text-align: center; 
+            color: #e7d9d9;
+            margin-bottom: 20px;
+        }
+
+        #submit-button {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="question"></h2>
+        <div id="options"></div>
+        <button id="submit-button" class="option-button" onclick="nextQuestion()">Submit</button>
+        <div class="container2">
+            <div class="animated-text">
+                <div id="score"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        
+        const questions = [
+            {
+                question: "Q1 - What is the capital of France?",
+                options: ["Paris", "London", "Berlin", "Rome"],
+                answer: "Paris"
+            },
+            {
+                question: "Q2 - Canberra is the capital of which country?",
+                options: ["Canada", "New Zealand", "China", "Australia"],
+                answer: "Australia"
+            },
+            {
+                question: "Q3 - What is the capital of Egypt?",
+                options: ["Alexandria", "Cairo", "Luxor", "Giza"],
+                answer: "Cairo"
+            },
+            {
+                question: "Q4 - Madrid is the capital of which country?",
+                options: ["Italy", "Russia", "Spain", "Brazil"],
+                answer: "Spain"
+            },
+            {
+                question: "Q5 - What is the capital of Japan?",
+                options: ["Tokyo", "Seoul", "Beijing", "Osaka"],
+                answer: "Tokyo"
+            },
+            {
+                question: "Q6 - Which of these is NOT a capital city?",
+                options: ["Islamabad", "London", "Berlin", "New York"],
+                answer: "New York"
+            },
+            {
+                question: "Q7 - What is the capital of Brazil?",
+                options: ["Brasília", "Rio de Janeiro", "São Paulo", "Buenos Aires"],
+                answer: "Brasília"
+            },
+            {
+                question: "Q8 - Which of these is a capital city?",
+                options: ["Perth", "Hamburg", "Marseille", "Kuala Lumpur"],
+                answer: "Kuala Lumpur"
+            },
+            {
+                question: "Q9 - Harare is the capital of which country?",
+                options: ["Poland", "Zimbabwe", "Afghanistan", "South Sudan"],
+                answer: "Zimbabwe"
+            },
+            {
+                question: "Q10 - How many capital cities are there in South Africa?",
+                options: ["None", "One", "Two", "Three"],
+                answer: "Three"
+            },
+        ];
+        
+        function displayQuestion() {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            const currentQuestionObj = questions[currentQuestion];
+        
+            questionElement.textContent = currentQuestionObj.question;
+            optionsElement.innerHTML = '';
+        
+            currentQuestionObj.options.forEach((option) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-button');
+                button.onclick = function() {
+                    checkAnswer(option);
+                };
+                optionsElement.appendChild(button);
+            });
+
+            
+        }
+        
+        function checkAnswer(selectedOption) {
+            const currentQuestionObj = questions[currentQuestion];
+            if (selectedOption === currentQuestionObj.answer) {
+                score++;
+            }
+        
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showScore();
+            }
+        }
+        
+        function showScore() {
+            const scoreElement = document.getElementById('score');
+            scoreElement.textContent = `Your final score is: ${score} / ${questions.length}`;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            displayQuestion();
+        });
+    </script>
+</body>
+</html>

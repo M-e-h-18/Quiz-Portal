@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Start Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            
+            
+            background-image:url('capitals1.jpg');          }
+        
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #e4560e;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            
+        }
+        
+        h1, h2 {
+            text-align: center;
+            color: #e7d9d9;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: 40px;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 35px;
+            color:#e7d9d9;
+        }
+        ul li {
+            margin-bottom: 7px;
+            color: #ffffff;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #2916ce;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        input[type="radio"] {
+            margin-bottom: 10px;
+        }
+
+        li{
+            margin-bottom: 7px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the "Countries and Capitals" Quiz</h1><hr>
+        <p><ul>
+            <li>This quiz has conatins 10 questions.</li>
+            <li>Each question has 4 options as answers, only one of which is correct.</li>
+            <li>You need to click the most appropriate option as your answer.</li>
+            <li>You must answer the current question before moving onto the next question.</li>
+            <li>Your final score will be displayed at the end of the quiz.</li>
+            <li>Once you are ready, press the START button to begin the quiz.</li>
+        </p></ul>
+        <button onclick="startQuiz()">START</button>
+    </div>
+    <script>
+    function startQuiz() {
+    location.href = 'miniprojcapitals.html';
+}
+    </script>
+</body>
+</html>
