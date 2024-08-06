@@ -1,0 +1,223 @@
+/* Reset styles */
+body, h1, h2, p, ul, li, nav {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-image: linear-gradient(to bottom,#8d0606, #f0d5b5);
+  }
+  
+  header {
+    background-color: #9a0808;
+    color: #fff;
+    padding: 20px 0;
+  }
+  h1{
+    text-align: center;
+    font-size:220%;
+
+    margin-bottom: 20px;
+    animation: bounce 1s infinite alternate;
+  }
+  h2{
+    background-color: #9a0808;
+    color: #fff;
+  }
+  
+  @keyframes bounce {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  nav ul li {
+    display: inline;
+    margin-right: 10px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 10px; /* Adding padding to the anchor tags */
+    background-color: #6e0707; /* Darker red color */
+    border-radius: 5px; /* Adding border-radius for rounded corners */
+    transition: background-color 0.3s; /* Adding transition for smooth hover effect */
+}
+
+nav ul li a:hover {
+    background-color: #a70606; /* Darker red color on hover */
+}
+
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  main {
+    padding: 20px;
+  }
+  
+  .hero {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #dfb4b4;
+    color: #91071e;
+    font-family:sans-serif;
+  }
+  
+  .featured-quizzes {
+    margin-top: 40px;
+    animation: slideInFromLeft 1s ease-in-out;
+  }
+  
+  @keyframes slideInFromLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  footer {
+    background-color: #3d0303;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position:fixed;
+    bottom:0;
+    right:0;
+    left:0;
+  }
+  
+  .about, .contact {
+    margin-top: 40px;
+    animation: slideInFromRight 1s ease-in-out;
+  }
+  
+  @keyframes slideInFromRight {
+    0% {
+      opacity: 0;
+      transform: translateX(100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  .head{
+    font-size: 20px;
+  font-weight: 600;
+  font-family: 'Niconne', cursive;
+  color: #000000;
+  text-shadow: 1px 1px 0px  #de7474,
+               2px 2px 0px #c64509,
+               3px 3px 0px #7345e8,
+               4px 4px 0px #693fe9,
+               5px 5px 0px #2d01a5;
+  }
+  form {
+    margin-top: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  button[type="submit"] {
+    background-color: #ab0c0c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+  }
+  button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+  
+  button[type="submit"]:hover {
+    background-color: #e8531d;
+  }
+  button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #861111;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+  .hero {
+    position: relative;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right:0;
+    width: 100%;
+    height: 100%;
+    background-image: url('quiz.jpg');
+    background-size: contain;
+    background-position: center;
+    opacity: 0.7; 
+}
+  .featured-quizzes {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.quiz-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+
+}
+.quiz{
+    border-color: #ebd3b6;
+    
+}
+.quiz img {
+    width: 400px; 
+    height: 300px; 
+  }
