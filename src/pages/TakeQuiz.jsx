@@ -8,12 +8,11 @@ function TakeQuiz() {
   const navigate = useNavigate();
   const quiz = quizzes.find((q) => q.id === id);
 
-  const MAX_XP_PER_QUIZ = 100; // or whatever max XP you want per quiz
-const XP_PER_CORRECT = Math.floor(MAX_XP_PER_QUIZ / quiz.questions.length);
+  const MAX_XP_PER_QUIZ = 100;
+  const XP_PER_CORRECT = Math.floor(MAX_XP_PER_QUIZ / quiz.questions.length);
 
-const TIME_PER_QUESTION = 20; // seconds
-const SPEED_BONUS = 20; // extra XP if answered within half time
-
+  const TIME_PER_QUESTION = 20; // seconds
+  const SPEED_BONUS = 20; // extra XP if answered within half time
 
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
@@ -23,7 +22,9 @@ const SPEED_BONUS = 20; // extra XP if answered within half time
   const [options, setOptions] = useState([]);
   const [lifelineUsed, setLifelineUsed] = useState(false);
   const [lifelineCount, setLifelineCount] = useState(3);
-  const [isTimed, setIsTimed] = useState(null); // null until user chooses
+  const [isTimed, setIsTimed] = useState(null);
+  const [isAnswered, setIsAnswered] = useState(false); // New state to handle answer delay
+  const [isCorrect, setIsCorrect] = useState(null); // New state to show feedback
 
   const cyberNames = ["NeonWarrior", "CyberWolf", "PixelNinja", "GlitchHunter", "SynthRider"];
 
@@ -34,11 +35,13 @@ const SPEED_BONUS = 20; // extra XP if answered within half time
     setOptions(shuffled);
     setTimeLeft(TIME_PER_QUESTION);
     setLifelineUsed(false);
+    setIsAnswered(false);
+    setIsCorrect(null);
   }, [current, quiz.questions, isTimed]);
 
-  // Countdown timer (only if timed)
+  // Countdown timer
   useEffect(() => {
-    if (!isTimed) return;
+    if (!isTimed || isAnswered) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -51,87 +54,88 @@ const SPEED_BONUS = 20; // extra XP if answered within half time
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [current, isTimed]);
+  }, [current, isTimed, isAnswered]);
 
   const handleAnswer = (option) => {
-    const correctAnswer = quiz.questions[current].answer;
-    const isCorrect = option === correctAnswer;
-    let newScore = score;
-    let newXp = xp;
+    if (isAnswered) return; // Prevent multiple clicks
 
-    if (isCorrect) {
-      newScore += 1;
-      newXp += XP_PER_CORRECT;
-      if (isTimed && timeLeft >= TIME_PER_QUESTION / 2) newXp += SPEED_BONUS;
+    const correctAnswer = quiz.questions[current].answer;
+    const correct = option === correctAnswer;
+    setIsCorrect(correct);
+    setIsAnswered(true);
+
+    // Update score and XP based on correctness
+    const newScore = score + (correct ? 1 : 0);
+    let newXp = xp + (correct ? XP_PER_CORRECT : 0);
+    if (isTimed && correct && timeLeft >= TIME_PER_QUESTION / 2) {
+      newXp += SPEED_BONUS;
     }
 
+    // Set the state for the current render cycle
     setScore(newScore);
     setXp(newXp);
     setUserAnswers([...userAnswers, option]);
 
-    if (current + 1 < quiz.questions.length) {
-      setCurrent(current + 1);
-    } else {
-      const level = Math.floor(newXp / 200) + 1;
-
-      // Get consistent player name
-      let playerName = localStorage.getItem("playerName");
-      if (!playerName) {
-        playerName =
-          cyberNames[Math.floor(Math.random() * cyberNames.length)] +
-          "#" +
-          Math.floor(Math.random() * 999);
-        localStorage.setItem("playerName", playerName);
-      }
-
-      // Load leaderboard
-      const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
-      const existingIndex = leaderboard.findIndex(entry => entry.name === playerName);
-
-      if (existingIndex !== -1) {
-        // Update existing stats
-        leaderboard[existingIndex].score += newScore;
-        leaderboard[existingIndex].xp += newXp;
-        leaderboard[existingIndex].level = Math.floor(leaderboard[existingIndex].xp / 200) + 1;
-        leaderboard[existingIndex].total += quiz.questions.length;
-
-        // Update favorite category
-        const catCount = leaderboard[existingIndex].categoryCount || {};
-        catCount[quiz.category] = (catCount[quiz.category] || 0) + 1;
-        leaderboard[existingIndex].categoryCount = catCount;
-
-        leaderboard[existingIndex].category = Object.keys(catCount).reduce(
-          (a, b) => (catCount[a] > catCount[b] ? a : b),
-          quiz.category
-        );
+    setTimeout(() => {
+      if (current + 1 < quiz.questions.length) {
+        // Move to the next question
+        setCurrent(current + 1);
       } else {
-        // Add new entry
-        leaderboard.push({
-          name: playerName,
-          score: newScore,
-          xp: newXp,
-          level,
-          total: quiz.questions.length,
-          category: quiz.category,
-          categoryCount: { [quiz.category]: 1 },
+        // End of quiz, navigate to results
+        const level = Math.floor(newXp / 200) + 1;
+
+        // Get or set player name
+        let playerName = localStorage.getItem("playerName");
+        if (!playerName) {
+          playerName = cyberNames[Math.floor(Math.random() * cyberNames.length)] + "#" + Math.floor(Math.random() * 999);
+          localStorage.setItem("playerName", playerName);
+        }
+
+        // Update leaderboard
+        const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+        const existingIndex = leaderboard.findIndex((entry) => entry.name === playerName);
+
+        if (existingIndex !== -1) {
+          leaderboard[existingIndex].score += newScore;
+          leaderboard[existingIndex].xp += newXp;
+          leaderboard[existingIndex].level = Math.floor(leaderboard[existingIndex].xp / 200) + 1;
+          leaderboard[existingIndex].total += quiz.questions.length;
+
+          const catCount = leaderboard[existingIndex].categoryCount || {};
+          catCount[quiz.category] = (catCount[quiz.category] || 0) + 1;
+          leaderboard[existingIndex].categoryCount = catCount;
+          leaderboard[existingIndex].category = Object.keys(catCount).reduce(
+            (a, b) => (catCount[a] > catCount[b] ? a : b),
+            quiz.category
+          );
+        } else {
+          leaderboard.push({
+            name: playerName,
+            score: newScore,
+            xp: newXp,
+            level,
+            total: quiz.questions.length,
+            category: quiz.category,
+            categoryCount: { [quiz.category]: 1 },
+          });
+        }
+
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+        navigate("/results", {
+          state: {
+            result: { score: newScore, total: quiz.questions.length, xp: newXp, level },
+            userAnswers: [...userAnswers, option],
+            questions: quiz.questions,
+            category: quiz.category,
+          },
         });
       }
-
-      localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-
-      navigate("/results", {
-        state: { 
-          result: { score: newScore, total: quiz.questions.length, xp: newXp, level }, 
-          userAnswers, 
-          questions: quiz.questions,
-          category: quiz.category,
-        }
-      });
-    }
+    }, 1000); // 1-second delay to show feedback
   };
 
   const handleLifeline = () => {
-    if (lifelineUsed || lifelineCount <= 0) return;
+    if (lifelineUsed || lifelineCount <= 0 || isAnswered) return;
 
     const correct = quiz.questions[current].answer;
     const wrongOptions = options.filter((opt) => opt !== correct);
@@ -142,7 +146,6 @@ const SPEED_BONUS = 20; // extra XP if answered within half time
     setLifelineCount((prev) => prev - 1);
   };
 
-  // Render modal for timed choice
   if (isTimed === null) {
     return (
       <div className="page flex flex-col items-center justify-center min-h-screen bg-black bg-opacity-80 text-white">
@@ -173,7 +176,18 @@ const SPEED_BONUS = 20; // extra XP if answered within half time
     );
   }
 
-  // Main quiz render
+  const getOptionStyle = (option) => {
+    if (!isAnswered) return "";
+    const correctAnswer = quiz.questions[current].answer;
+    if (option === correctAnswer) {
+      return "correct-answer";
+    }
+    if (option === userAnswers[current]) {
+      return "incorrect-answer";
+    }
+    return "disabled-option";
+  };
+
   return (
     <div className="page">
       <h2 className="quiz-title">{quiz.title}</h2>
@@ -192,7 +206,8 @@ const SPEED_BONUS = 20; // extra XP if answered within half time
               <motion.button
                 key={i}
                 onClick={() => handleAnswer(opt)}
-                className="option-btn"
+                disabled={isAnswered}
+                className={`option-btn ${getOptionStyle(opt)}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 0.8, y: 0 }}
                 whileHover={{ opacity: 1, scale: 1.05, boxShadow: "0 0 20px #ff00ff, 0 0 30px #00ffe7 inset" }}
@@ -206,9 +221,9 @@ const SPEED_BONUS = 20; // extra XP if answered within half time
 
         <button
           onClick={handleLifeline}
-          disabled={lifelineUsed || lifelineCount <= 0}
+          disabled={lifelineUsed || lifelineCount <= 0 || isAnswered}
           className="neon-btn mt-3"
-          style={{ opacity: lifelineUsed || lifelineCount <= 0 ? 0.5 : 1 }}
+          style={{ opacity: lifelineUsed || lifelineCount <= 0 || isAnswered ? 0.5 : 1 }}
         >
           50-50 Lifeline ({lifelineCount} left)
         </button>
