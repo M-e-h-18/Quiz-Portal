@@ -1,0 +1,90 @@
+/* Top Navigation Bar */
+.topnav {
+  width: 100%;
+  padding: 12px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+}
+
+/* Glassy futuristic effect */
+.glassy-nav {
+  background: rgba(15, 15, 35, 0.7);
+  border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Brand */
+.brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+.brand:hover {
+  color: #00e5ff;
+  text-shadow: 0 0 8px #00e5ff, 0 0 20px #ff00ff;
+}
+.neon-glow {
+  text-shadow: 0 0 5px #00ffe7, 0 0 15px #ff00ff;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Center Links */
+.topnav-center {
+  display: flex;
+  gap: 20px;
+}
+.nav-link {
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ccc;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+.nav-link:hover {
+  color: #00ffe7;
+  text-shadow: 0 0 5px #00ffe7, 0 0 15px #ff00ff;
+}
+.nav-link.active {
+  color: #fff;
+  text-shadow: 0 0 10px #00e5ff, 0 0 20px #ff00ff;
+}
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #00ffe7, #ff00ff);
+  border-radius: 4px;
+  box-shadow: 0 0 8px #00ffe7, 0 0 12px #ff00ff;
+}
+
+/* Right side buttons */
+.topnav-right {
+  display: flex;
+  gap: 12px;
+}
+.icon-btn {
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid transparent;
+  border-radius: 50%;
+  padding: 8px 10px;
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s ease;
+}
+.icon-btn:hover {
+  border-color: #00ffe7;
+  box-shadow: 0 0 8px #00ffe7, 0 0 15px #ff00ff;
+  transform: scale(1.1);
+}

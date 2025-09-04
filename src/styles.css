@@ -1,0 +1,451 @@
+/* ====== GLOBAL ====== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Orbitron";
+  background: #0a0a0f;
+  color: #f5f5f5;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ====== NEON GLOW UTILITIES ====== */
+.neon-bg {
+  background: radial-gradient(circle at top left, #0f0f1c, #050507);
+}
+
+.neon-card {
+  background: rgba(20, 20, 30, 0.8);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: center;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.08);
+  transition: 0.3s;
+}
+
+.neon-card:hover {
+  box-shadow: 0 0 25px rgba(255, 0, 255, 0.5),
+              0 0 50px rgba(0, 255, 255, 0.3);
+}
+
+/* Glow variations */
+.glow-0 { border-color: #ff00ff; }
+.glow-1 { border-color: #00e5ff; }
+.glow-2 { border-color: #39ff14; }
+.glow-3 { border-color: #ff2a6d; }
+
+/* Neon button */
+.neon-btn {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #fff;
+  border: 2px solid #0ff;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: 0 0 12px #0ff, inset 0 0 8px rgba(0, 255, 255, 0.4);
+  transition: 0.3s;
+}
+
+.neon-btn:hover {
+  background: #0ff;
+  color: #000;
+  box-shadow: 0 0 25px #0ff, 0 0 50px #00e5ff;
+}
+
+/* ====== HERO ====== */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff2a6d, 0 0 40px #ff00ff;
+}
+
+.hero-sub {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+  color: #bbb;
+  text-shadow: 0 0 10px #00e5ff;
+}
+
+/* ====== QUIZ GRID ====== */
+.quiz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.quiz-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.6rem;
+  color: #fff;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.quiz-card p {
+  font-size: 0.9rem;
+  color: #ccc;
+}
+/* ====== QUIZ PAGE ====== */
+.quiz-box {
+  max-width: 800px;
+  margin: 3rem auto;
+}
+
+.question-text {
+  font-size: 1.4rem;
+  margin: 1.5rem 0;
+  color: #0ff;
+  text-shadow: 0 0 12px #0ff;
+}
+
+.options {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.option-btn {
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.progress-text {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+}
+.top-right-buttons {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 50;
+}
+
+.top-right-buttons .neon-btn {
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0; /* override margin-top from .neon-btn */
+}
+
+/* ====== NAVBAR ====== */
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(15, 15, 30, 0.95);
+  border-bottom: 2px solid #0ff;
+  box-shadow: 0 0 15px #0ff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.topnav-left .brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.topnav-center .nav-link {
+  margin: 0 1rem;
+  color: #fff;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.topnav-center .nav-link:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+}
+
+.topnav-right button {
+  margin-left: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  color: #fff;
+  cursor: pointer;
+  text-shadow: 0 0 10px #0ff;
+  transition: 0.3s;
+}
+
+.topnav-right button:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 15px #ff00ff;
+}
+/* ====== RESULTS PAGE ====== */
+.result-box {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+}
+
+.result-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px #0ff;
+}
+
+.text-green {
+  color: #00ffcc;
+  text-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc;
+}
+
+.text-pink {
+  color: #ff00ff;
+  text-shadow: 0 0 15px #ff00ff, 0 0 25px #ff00ff;
+}
+
+.score-text {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+}
+
+.highlight {
+  color: #0ff;
+  font-weight: bold;
+  text-shadow: 0 0 8px #0ff;
+}
+
+.percentage {
+  font-size: 1.2rem;
+  margin-top: 0.5rem;
+}
+/* ====== LEADERBOARD ====== */
+.leaderboard-box {
+  padding: 2rem;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+}
+
+.leaderboard-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 12px;
+  font-size: 1.2rem;
+}
+
+.leaderboard-table th {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.leaderboard-table tbody tr {
+  transition: background 0.3s;
+}
+
+.leaderboard-table tbody tr:hover {
+  background: rgba(0, 255, 255, 0.08);
+}
+
+.rank {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.score {
+  color: #ff00ff;
+  font-weight: bold;
+  text-shadow: 0 0 10px #ff00ff;
+}
+/* ====== ABOUT PAGE ====== */
+.neon-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(255, 0, 255, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.neon-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.7), inset 0 0 30px rgba(255, 0, 255, 0.3);
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-family: 'Orbitron';
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #fff;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #ff00ff;
+}
+
+.highlight {
+  color: #0ff;
+  font-weight: bold;
+  text-shadow: 0 0 12px #0ff;
+}
+/* ====== ROUTE TRANSITIONS ====== */
+.route-transition {
+  width: 100%;
+  height: 100%;
+  animation: neon-glitch 1.2s ease-in-out;
+}
+
+/* Neon Glitch Effect */
+@keyframes neon-glitch {
+  0% {
+    opacity: 0;
+    transform: scale(1.05) skewX(10deg);
+    filter: hue-rotate(180deg);
+  }
+  30% {
+    opacity: 0.6;
+    transform: scale(1.02) skewX(-5deg);
+    filter: hue-rotate(90deg);
+  }
+  60% {
+    opacity: 0.8;
+    transform: scale(1.01) skewX(5deg);
+    filter: hue-rotate(270deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) skewX(0deg);
+    filter: hue-rotate(0deg);
+  }
+}
+/* XP Bar */
+.xp-bar {
+  margin-top: 20px;
+  width: 80%;
+  height: 12px;
+  background: #111;
+  border: 2px solid #00fff7;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #00fff7;
+}
+
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00fff7, #ff00ff);
+  box-shadow: 0 0 15px #ff00ff, 0 0 25px #00fff7;
+  transition: width 0.5s ease-in-out;
+}
+
+.xp-text {
+  margin-top: 8px;
+  color: #ff00ff;
+  font-family: "Orbitron";
+  text-shadow: 0 0 6px #ff00ff, 0 0 12px #00fff7;
+}
+.quiz-title {
+  font-size: 1.8rem;
+  text-shadow: 0 0 8px #ff00ff, 0 0 12px #00ffe7;
+}
+
+.xp-bar {
+  margin-top: 15px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 6px #00ffe7aa inset;
+}
+
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff00ff, #00ffe7);
+  box-shadow: 0 0 12px #ff00ff, 0 0 20px #00ffe7;
+  transition: width 0.4s ease-in-out;
+}
+
+.xp-text {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #00ffe7;
+  text-shadow: 0 0 6px #ff00ff;
+}
+.option-btn {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid #ff00ff;
+  background: linear-gradient(145deg, #1a1a2e, #0f0f1f);
+  color: #fff;
+  box-shadow: 0 0 8px #ff00ff, 0 0 15px #00ffe7 inset;
+  transition: all 0.3s ease-in-out;
+}
+
+.option-btn {
+  font-family: 'Orbitron';
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid rgba(255, 0, 255, 0.4);
+  background: rgba(20, 20, 30, 0.6);
+  color: #fff;
+  box-shadow: 0 0 5px rgba(255, 0, 255, 0.2) inset;
+  opacity: 0.6; /* subtle by default */
+  margin-bottom: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.option-btn.correct {
+  background: #00ffcc;
+  border-color: #00ffcc;
+  color: #000;
+  box-shadow: 0 0 25px #00ffcc, 0 0 40px #00ffe7 inset;
+}
+
+.option-btn.wrong {
+  background: #ff2a6d;
+  border-color: #ff2a6d;
+  color: #fff;
+  box-shadow: 0 0 25px #ff2a6d, 0 0 40px #ff00ff inset;
+}
+/* Checkbox neon glow */
+input[type="checkbox"].accent-cyan-500 {
+  box-shadow: 0 0 5px #0ff, 0 0 10px #0ff inset;
+}
+
+input[type="checkbox"].accent-cyan-500:checked {
+  background-color: #0ff;
+  box-shadow: 0 0 10px #0ff, 0 0 20px #0ff inset;
+}
+

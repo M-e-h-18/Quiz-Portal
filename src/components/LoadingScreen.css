@@ -1,0 +1,100 @@
+/* Fullscreen Cyberpunk Loading */
+.loading-screen {
+  height: 100vh;
+  width: 100vw;
+  background: #0d0d0d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #00fff7;
+  font-family: "Orbitron", sans-serif;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Glitch Text Effect */
+.glitch {
+  font-size: 3rem;
+  font-weight: bold;
+  position: relative;
+  color: #00fff7;
+  text-shadow: 0 0 5px #00fff7, 0 0 15px #ff00ff;
+  animation: flicker 1.2s infinite alternate;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 #ff00ff;
+  animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 #00fff7;
+  animation: glitch-anim2 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(10px, 9999px, 35px, 0); }
+  20% { clip: rect(40px, 9999px, 65px, 0); }
+  40% { clip: rect(25px, 9999px, 55px, 0); }
+  60% { clip: rect(5px, 9999px, 25px, 0); }
+  80% { clip: rect(30px, 9999px, 60px, 0); }
+  100% { clip: rect(15px, 9999px, 45px, 0); }
+}
+
+@keyframes glitch-anim2 {
+  0% { clip: rect(15px, 9999px, 45px, 0); }
+  20% { clip: rect(30px, 9999px, 60px, 0); }
+  40% { clip: rect(10px, 9999px, 35px, 0); }
+  60% { clip: rect(25px, 9999px, 55px, 0); }
+  80% { clip: rect(5px, 9999px, 25px, 0); }
+  100% { clip: rect(40px, 9999px, 65px, 0); }
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+/* Loading Text */
+.loading-text {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #ff00ff;
+  text-shadow: 0 0 8px #ff00ff;
+}
+
+/* Neon Loading Bar */
+.loading-bar {
+  margin-top: 1.5rem;
+  width: 60%;
+  height: 8px;
+  background: #222;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #00fff7, #ff00ff);
+  animation: load-progress 6s forwards;
+}
+
+@keyframes load-progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
