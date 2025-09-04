@@ -24,7 +24,7 @@ function TakeQuiz() {
 
   // Shuffle options for current question
   useEffect(() => {
-    if (isTimed === null) return; // wait until user chooses
+    if (isTimed === null) return;
     const shuffled = [...quiz.questions[current].options].sort(() => Math.random() - 0.5);
     setOptions(shuffled);
     setTimeLeft(TIME_PER_QUESTION);
@@ -76,11 +76,23 @@ function TakeQuiz() {
         Math.floor(Math.random() * 999);
 
       const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
-      leaderboard.push({ name: playerName, score: newScore, xp: newXp, level, total: quiz.questions.length });
+      leaderboard.push({
+        name: playerName,
+        score: newScore,
+        xp: newXp,
+        level,
+        total: quiz.questions.length,
+        category: quiz.category, // store category
+      });
       localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
 
       navigate("/results", {
-        state: { result: { score: newScore, total: quiz.questions.length, xp: newXp, level }, userAnswers, questions: quiz.questions }
+        state: { 
+          result: { score: newScore, total: quiz.questions.length, xp: newXp, level }, 
+          userAnswers, 
+          questions: quiz.questions,
+          category: quiz.category,
+        }
       });
     }
   };

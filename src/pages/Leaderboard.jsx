@@ -6,7 +6,7 @@ export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
   const navigate = useNavigate();
 
-  // Function to load & sort leaderboard
+  // Load & sort leaderboard
   const loadLeaderboard = () => {
     const stored = JSON.parse(localStorage.getItem("leaderboard") || "[]");
     const sorted = stored
@@ -18,13 +18,11 @@ export default function Leaderboard() {
   useEffect(() => {
     loadLeaderboard();
     window.addEventListener("storage", loadLeaderboard);
-
     return () => window.removeEventListener("storage", loadLeaderboard);
   }, []);
 
   return (
     <div className="page neon-bg flex flex-col items-center justify-start px-4 py-10 min-h-screen">
-      {/* Page Title */}
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -34,7 +32,6 @@ export default function Leaderboard() {
         🏆 Leaderboard
       </motion.h1>
 
-      {/* Back to Home Button */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -59,9 +56,9 @@ export default function Leaderboard() {
                 <th>Rank</th>
                 <th>Player</th>
                 <th>Score</th>
-                <th>Total</th>
                 <th>XP</th>
                 <th>Level</th>
+                <th>Category</th>
               </tr>
             </thead>
             <tbody>
@@ -85,10 +82,10 @@ export default function Leaderboard() {
                     {i === 0 ? "👑" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`}
                   </td>
                   <td>{entry.name}</td>
-                  <td className="score">{entry.score}</td>
-                  <td>{entry.total}</td>
+                  <td>{entry.score} / {entry.total}</td>
                   <td>{entry.xp}</td>
                   <td>{entry.level}</td>
+                  <td>{entry.category}</td>
                 </motion.tr>
               ))}
             </tbody>
