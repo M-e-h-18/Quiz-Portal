@@ -1,5 +1,5 @@
 # ⚡ Quiz Portal ⚡
-
+Deployed at : https://quizarc.onrender.com
 A dynamic, interactive web application for taking quizzes on a variety of topics, including programming, data tools, entertainment, sports, games, and more.
 
 ---
@@ -45,3 +45,49 @@ This branch (**update1**) is a major upgrade over the main branch. It transforms
 
 ```bash
 git clone https://github.com/M-e-h-18/Quiz-Portal.git
+
+```
+
+### 2. Install dependencies
+
+```bash
+cd Quiz-Portal
+npm install
+```
+
+### 3. Run the app
+
+```bash
+npm start
+```
+
+The app will start locally and can be accessed at `http://localhost:3000`.
+
+## How to Play
+
+1. **Select a Quiz:** Browse the available quizzes and choose one.
+2. **Timed or Untimed:** Decide whether to challenge yourself with a timer.
+3. **Answer Questions:** Select the correct option for each question. Use lifelines if needed.
+4. **Score & Level Up:** Earn XP based on accuracy and speed; your level increases with your XP.
+5. **Leaderboard:** Check your standing after each quiz.
+
+## Example Quiz Topics
+
+- **Programming:** Java, C++, Python, OOPS, DBMS, NoSQL
+- **Data Tools:** Power BI, Tableau
+- **Fun & Games:** Riddles, Cards, Chess
+- **Entertainment:** Music, Cooking
+- **Sports:** Football, Cricket, General sports knowledge
+
+## Contributing
+
+Feel free to fork the repo and submit pull requests. Suggestions for new quiz topics or improvements are welcome!
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+**Repository:** [Quiz-Portal](https://github.com/M-e-h-18/Quiz-Portal)
+
