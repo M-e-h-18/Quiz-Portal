@@ -1,5 +1,7 @@
-# ⚡ Quiz Portal ⚡
+# ⚡ QuizArc⚡
+
 Deployed at : https://quizarc.onrender.com
+
 A dynamic, interactive web application for taking quizzes on a variety of topics, including programming, data tools, entertainment, sports, games, and more.
 
 ---
