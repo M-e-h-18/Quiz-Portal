@@ -8,9 +8,12 @@ function TakeQuiz() {
   const navigate = useNavigate();
   const quiz = quizzes.find((q) => q.id === id);
 
-  const XP_PER_CORRECT = 50;
-  const TIME_PER_QUESTION = 20; // seconds
-  const SPEED_BONUS = 20; // extra XP if answered within half time
+  const MAX_XP_PER_QUIZ = 100; // or whatever max XP you want per quiz
+const XP_PER_CORRECT = Math.floor(MAX_XP_PER_QUIZ / quiz.questions.length);
+
+const TIME_PER_QUESTION = 20; // seconds
+const SPEED_BONUS = 20; // extra XP if answered within half time
+
 
   const [current, setCurrent] = useState(0);
   const [score, setScore] = useState(0);
@@ -21,6 +24,8 @@ function TakeQuiz() {
   const [lifelineUsed, setLifelineUsed] = useState(false);
   const [lifelineCount, setLifelineCount] = useState(3);
   const [isTimed, setIsTimed] = useState(null); // null until user chooses
+
+  const cyberNames = ["NeonWarrior", "CyberWolf", "PixelNinja", "GlitchHunter", "SynthRider"];
 
   // Shuffle options for current question
   useEffect(() => {
@@ -57,7 +62,6 @@ function TakeQuiz() {
     if (isCorrect) {
       newScore += 1;
       newXp += XP_PER_CORRECT;
-
       if (isTimed && timeLeft >= TIME_PER_QUESTION / 2) newXp += SPEED_BONUS;
     }
 
@@ -69,21 +73,50 @@ function TakeQuiz() {
       setCurrent(current + 1);
     } else {
       const level = Math.floor(newXp / 200) + 1;
-      const cyberNames = ["NeonWarrior", "CyberWolf", "PixelNinja", "GlitchHunter", "SynthRider"];
-      const playerName =
-        cyberNames[Math.floor(Math.random() * cyberNames.length)] +
-        "#" +
-        Math.floor(Math.random() * 999);
 
+      // Get consistent player name
+      let playerName = localStorage.getItem("playerName");
+      if (!playerName) {
+        playerName =
+          cyberNames[Math.floor(Math.random() * cyberNames.length)] +
+          "#" +
+          Math.floor(Math.random() * 999);
+        localStorage.setItem("playerName", playerName);
+      }
+
+      // Load leaderboard
       const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
-      leaderboard.push({
-        name: playerName,
-        score: newScore,
-        xp: newXp,
-        level,
-        total: quiz.questions.length,
-        category: quiz.category, // store category
-      });
+      const existingIndex = leaderboard.findIndex(entry => entry.name === playerName);
+
+      if (existingIndex !== -1) {
+        // Update existing stats
+        leaderboard[existingIndex].score += newScore;
+        leaderboard[existingIndex].xp += newXp;
+        leaderboard[existingIndex].level = Math.floor(leaderboard[existingIndex].xp / 200) + 1;
+        leaderboard[existingIndex].total += quiz.questions.length;
+
+        // Update favorite category
+        const catCount = leaderboard[existingIndex].categoryCount || {};
+        catCount[quiz.category] = (catCount[quiz.category] || 0) + 1;
+        leaderboard[existingIndex].categoryCount = catCount;
+
+        leaderboard[existingIndex].category = Object.keys(catCount).reduce(
+          (a, b) => (catCount[a] > catCount[b] ? a : b),
+          quiz.category
+        );
+      } else {
+        // Add new entry
+        leaderboard.push({
+          name: playerName,
+          score: newScore,
+          xp: newXp,
+          level,
+          total: quiz.questions.length,
+          category: quiz.category,
+          categoryCount: { [quiz.category]: 1 },
+        });
+      }
+
       localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
 
       navigate("/results", {

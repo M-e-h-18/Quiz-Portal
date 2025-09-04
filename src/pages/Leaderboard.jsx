@@ -10,8 +10,9 @@ export default function Leaderboard() {
   const loadLeaderboard = () => {
     const stored = JSON.parse(localStorage.getItem("leaderboard") || "[]");
     const sorted = stored
-      .sort((a, b) => b.score - a.score || b.xp - a.xp)
-      .slice(0, 10);
+    .sort((a, b) => b.xp - a.xp || b.score - a.score)
+    .slice(0, 10);
+
     setLeaderboard(sorted);
   };
 

@@ -8,23 +8,50 @@ export default function Profile() {
     name: "Anonymous",
     xp: 0,
     level: 1,
-    totalQuizzes: 0,
+    totalQuestions: 0,
     favoriteCategory: "N/A",
   });
 
-  // Load profile from leaderboard (latest player)
-  useEffect(() => {
+  const updateProfile = () => {
     const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
-    if (leaderboard.length > 0) {
-      const latest = leaderboard[leaderboard.length - 1];
-      setProfile({
-        name: latest.name,
-        xp: latest.xp,
-        level: latest.level,
-        totalQuizzes: latest.total,
-        favoriteCategory: latest.category || "N/A", // optional if you track categories
-      });
-    }
+    if (leaderboard.length === 0) return;
+
+    // Latest player
+    const latest = leaderboard[leaderboard.length - 1];
+    const playerName = latest.name;
+
+    // All attempts by this player
+    const playerEntries = leaderboard.filter(e => e.name === playerName);
+
+    // Total questions attempted
+    const totalQuestions = playerEntries.reduce((sum, e) => sum + e.total, 0);
+
+    // Favorite category
+    const categoryCount = {};
+    playerEntries.forEach(e => {
+      const cat = e.category || "N/A";
+      categoryCount[cat] = (categoryCount[cat] || 0) + 1;
+    });
+    const favoriteCategory = Object.keys(categoryCount).reduce(
+      (a, b) => (categoryCount[a] >= categoryCount[b] ? a : b),
+      "N/A"
+    );
+
+    setProfile({
+      name: playerName,
+      xp: latest.xp,
+      level: latest.level,
+      totalQuestions,
+      favoriteCategory,
+    });
+  };
+
+  useEffect(() => {
+    updateProfile();
+
+    // Listen for changes in localStorage from other tabs or updates
+    window.addEventListener("storage", updateProfile);
+    return () => window.removeEventListener("storage", updateProfile);
   }, []);
 
   return (
@@ -38,7 +65,7 @@ export default function Profile() {
         🕹️ {profile.name}'s Cyber Profile
       </motion.h1>
 
-      {/* Cyberpunk Avatar */}
+      {/* Avatar */}
       <div className="avatar neon-card mt-6 mb-6 w-32 h-32 rounded-full flex items-center justify-center text-3xl font-bold text-cyan-400">
         {profile.name.slice(0, 2).toUpperCase()}
       </div>
@@ -46,7 +73,7 @@ export default function Profile() {
       <div className="stats neon-card p-6 rounded-xl flex flex-col items-center gap-3">
         <p>⚡ XP: <span className="highlight">{profile.xp}</span></p>
         <p>🎯 Level: <span className="highlight">{profile.level}</span></p>
-        <p>📝 Total Quizzes: <span className="highlight">{profile.totalQuizzes}</span></p>
+        <p>📝 Total Questions: <span className="highlight">{profile.totalQuestions}</span></p>
         <p>🔥 Favorite Category: <span className="highlight">{profile.favoriteCategory}</span></p>
 
         {/* XP Progress Bar */}
@@ -56,14 +83,11 @@ export default function Profile() {
             initial={{ width: 0 }}
             animate={{ width: `${(profile.xp % 200) / 2}%` }}
             transition={{ duration: 1 }}
-          ></motion.div>
+          />
         </div>
       </div>
 
-      <button
-        className="neon-btn mt-6"
-        onClick={() => navigate("/")}
-      >
+      <button className="neon-btn mt-6" onClick={() => navigate("/")}>
         🏠 Home
       </button>
     </div>
